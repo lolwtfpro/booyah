@@ -16,17 +16,6 @@ end)
 
 print("Script loaded. Press " .. stopScriptKeybind .. " to stop the script.")
 
-for i, v in pairs(game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GetEquippedWeapons"):InvokeServer(game:GetService("Players").LocalPlayer)) do
-    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UnequipOneWeapon"):InvokeServer(v)
-end
-
-wait(2)
-
-local args = {}
-local mobsLocation = nil
-local enemyTable = {}
-local currEnemies = {}
-
 task.spawn(function()
     while not stopScript do
         for i, v in pairs(game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GetEquippedWeapons"):InvokeServer(game:GetService("Players").LocalPlayer)) do
@@ -35,6 +24,19 @@ task.spawn(function()
         wait(5)
     end
 end)
+
+local args = {}
+local mobsLocation = nil
+local enemyTable = {}
+local currEnemies = {}
+
+local spawnMobConnection
+spawnMobConnection = game:GetService("ReplicatedStorage").Remotes.SpawnMob.OnClientEvent:Connect(function(mob)
+    enemyTable[mob.ID] = mob.Health
+    currEnemies[mob.ID] = true
+end)
+
+wait(2)
 
 while not stopScript do
     if game.workspace:FindFirstChild("Mobs") then
@@ -50,22 +52,19 @@ while not stopScript do
     for i, v in pairs(mobsLocation:GetChildren()) do
         if v then
             if v.ClassName == "Model" and v:FindFirstChild("HumanoidRootPart") then
-                if v:GetAttribute("Health") ~= 0 then
-                    local mobID = v:GetAttribute("ID")
-                    table.insert(args, { mobID, damage, weapon})
-                    currEnemies[mobID] = true
-                    local enemy = enemyTable[mobID]
-                    if enemy then
-                        enemyTable[mobID] = enemy - damage
-                    else
-                        enemyTable[mobID] = v:GetAttribute("Health") - damage
-                    end
-
-                    if enemy and enemy <= 0 then
-                        --print("Mob with ID " .. mobID .. " has been killed.")
-                        v:Destroy()
-                        enemyTable[mobID] = nil
-                    end
+                local mobID = v:GetAttribute("ID")
+                table.insert(args, { mobID, damage, weapon})
+                currEnemies[mobID] = true
+                local enemy = enemyTable[mobID]
+                if enemy then
+                    enemyTable[mobID] = enemy - damage
+                else
+                    enemyTable[mobID] = 10000000 - damage
+                end
+                if enemy and enemy <= 0 then
+                    --print("Mob with ID " .. mobID .. " has been killed.")
+                    v:Destroy()
+                    enemyTable[mobID] = nil
                 end
             end
         end
@@ -83,5 +82,6 @@ while not stopScript do
     wait(0.1)
     print("running")
 end
-print("Script stopped.")
 UISConnection:Disconnect()
+spawnMobConnection:Disconnect()
+print("Script stopped.")
