@@ -47,21 +47,23 @@ while not stopScript do
         continue
     end
     local damage = dmgMult * weapon:GetAttribute("Damage") * 4
-    for i, v in pairs(mobsLocation:GetChildren()) do -- game:GetService("ReplicatedStorage").Mobs:GetChildren() game.workspace.Mobs:GetChildren()
+    for i, v in pairs(mobsLocation:GetChildren()) do
         if v then
             if v.ClassName == "Model" and v:FindFirstChild("HumanoidRootPart") then
                 if v:GetAttribute("Health") ~= 0 then
                     local mobID = v:GetAttribute("ID")
                     table.insert(args, { mobID, damage, weapon})
                     currEnemies[mobID] = true
-                    if enemyTable[mobID] then
-                        enemyTable[mobID] = enemyTable[mobID] - damage
+                    local enemy = enemyTable[mobID]
+                    if enemy then
+                        enemyTable[mobID] = enemy - damage
                     else
                         enemyTable[mobID] = v:GetAttribute("Health") - damage
                     end
 
-                    if enemyTable[mobID] and enemyTable[mobID] <= 0 then
+                    if enemy and enemy <= 0 then
                         --print("Mob with ID " .. mobID .. " has been killed.")
+                        v:Destroy()
                         enemyTable[mobID] = nil
                     end
                 end
