@@ -105,6 +105,8 @@ local gamepassTeleporter = gamepassSection:Button({
     Callback = function() cheat["enableAutoRoll"]() end
 })
 
+mainTab:Select()
+
 local stopScript = false
 function autoKillFunc()
     local weapon = game:GetService("ReplicatedStorage"):WaitForChild("Assets"):WaitForChild("Weapons"):WaitForChild("Hellscape Greatsword")
