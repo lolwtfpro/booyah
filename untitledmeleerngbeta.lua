@@ -1,6 +1,7 @@
 if game.PlaceId ~= 99248392277037 then
     return
 end
+queue_on_teleport("loadstring(game:HttpGet(\"https://raw.githubusercontent.com/lolwtfpro/booyah/refs/heads/main/untitledmeleerngbeta.lua\", true))()")
 
 local windUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 local cloneref = (cloneref or clonereference or function(instance) return instance end)
@@ -28,7 +29,7 @@ local window = windUI:CreateWindow({
     ScrollBarEnabled = false,
     
     KeySystem = { 
-        Key = { "booyah" },
+        Key = { "booyahv2" },
         Note = "i'm dirty now...",
         URL = "https://discord.gg/Ur8jxDMhCx",
         SaveKey = true
@@ -450,7 +451,7 @@ cheat["autoKill"] = function(state)
 end
 
 local autoSacrificeThread = task.spawn(function()
-    local lastSacrificeTime = 0
+    local lastSacrificeTime = -900
     wait(20)
     while not settings.unload do
         --print(autoSacrificeToggleState, (#settings.rarities == 0 and settings.autoSacrificeWhitelist), time() - lastSacrificeTime <= 900)
