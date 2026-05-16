@@ -16,13 +16,7 @@ local window = windUI:CreateWindow({
     SideBarWidth = 200,
     BackgroundImageTransparency = 0.42,
     HideSearchBar = true,
-    ScrollBarEnabled = false,
-    KeySystem = { 
-        Key = { "booya" },
-        Note = "frock this game",
-        URL = "https://discord.gg/Ur8jxDMhCx",
-        SaveKey = true
-    }
+    ScrollBarEnabled = false
 })
 
 window:EditOpenButton({
