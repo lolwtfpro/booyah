@@ -26,14 +26,7 @@ local window = windUI:CreateWindow({
     SideBarWidth = 200,
     BackgroundImageTransparency = 0.42,
     HideSearchBar = true,
-    ScrollBarEnabled = false,
-    
-    KeySystem = { 
-        Key = { "booyahv2" },
-        Note = "i'm dirty now...",
-        URL = "https://discord.gg/Ur8jxDMhCx",
-        SaveKey = true
-    },
+    ScrollBarEnabled = false
 })
 
 
